@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('created_at', sa.TIMESTAMP(), nullable=False),
     sa.Column('updated_at', sa.TIMESTAMP(), nullable=False),
     sa.Column('login', sa.VARCHAR(length=20), nullable=False),
-    sa.Column('password', sa.VARBINARY(), nullable=False),
+    sa.Column('password', sa.LargeBinary(), nullable=False),
     sa.Column('first_name', sa.VARCHAR(length=50), nullable=True),
     sa.Column('last_name', sa.VARCHAR(length=50), nullable=True),
     sa.Column('is_delete', sa.BOOLEAN(), nullable=False),
