@@ -18,13 +18,13 @@ class DBSession:
         return self._session.query(*args, **kwargs)
 
     def employees(self) -> Query:
-        return self.query(DBEmployee).filter(DBEmployee.is_delete == 0)
+        return self.query(DBEmployee).filter(DBEmployee.is_delete == False)
 
     def messages(self, employee_id: int) -> Query:
         return self.query(DBMessage).filter(DBMessage.recipient_id == employee_id)
 
     def messages_not_deleted(self) -> Query:
-        return self.query(DBMessage).filter(DBMessage.is_delete == 0)
+        return self.query(DBMessage).filter(DBMessage.is_delete == False)
 
     def close_session(self):
         self._session.close()
@@ -57,7 +57,7 @@ class DBSession:
         return qs.all()
 
     def get_message_all(self, rid: int) -> List['DBMessage']:
-        return self.messages(rid).filter(DBMessage.is_delete == 0).all()
+        return self.messages(rid).filter(DBMessage.is_delete == False).all()
 
     def get_message_by_id(self, message_id: int) -> DBMessage:
         msg = self.messages_not_deleted().filter(DBMessage.id == message_id).first()
