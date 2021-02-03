@@ -25,6 +25,10 @@ def get_messages(session: DBSession, rid: int) -> List['DBMessage']:
     return session.get_message_all(rid)
 
 
+def get_messages_by_sender_login(session: DBSession, rid: int, login: str) -> List['DBMessages']:
+    return session.get_messages_by_sender_login(rid, login)
+
+
 def patch_message(session: DBSession, message, message_id: int) -> DBMessage:
     db_message = session.get_message_by_id(message_id)
 

@@ -13,7 +13,9 @@ from transport.sanic.exceptions import SanicEmployeeNotFound, SanicDBException, 
 
 class MessageEndpoint(BaseEndpoint):
 
-    async def method_post(self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_post(self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs
+                          ) -> BaseHTTPResponse:
+
         request_model = RequestCreateMessageDto(body)
 
         try:
@@ -32,7 +34,9 @@ class MessageEndpoint(BaseEndpoint):
 
         return await self.make_response_json(body=response_model.dump(), status=201)
 
-    async def method_get(self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs) -> BaseHTTPResponse:
+    async def method_get(self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs
+                         ) -> BaseHTTPResponse:
+
         db_message = message_queries.get_messages(session, token.get('eid'))
         try:
             response_model = ResponseCreateMessageDto(db_message, many=True)

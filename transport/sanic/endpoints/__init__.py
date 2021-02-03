@@ -7,5 +7,6 @@ from .employees.employee import EmployeeEndpoint
 from .employees.my_employee import MyEmployeeEndpoint
 from .messages.message import MessageEndpoint
 from .messages.message_actions import MessageActionEndpoint
+from .messages.messages_by_sender import SortMessagesBySenderLoginEndpoint
 
 

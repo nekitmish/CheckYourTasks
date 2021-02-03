@@ -22,6 +22,9 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
             config, context, uri='/msg', methods=['GET', 'POST'], auth_required=True),
         endpoints.MessageActionEndpoint(
             config, context, uri='/msg/<message_id:int>', methods=['PATCH', 'DELETE', 'GET'], auth_required=True),
+        endpoints.SortMessagesBySenderLoginEndpoint(
+            config, context, uri='/msg/<login:str>', methods=['GET'], auth_required=True),
+
 
 
     )
