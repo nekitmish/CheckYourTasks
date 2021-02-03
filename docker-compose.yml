@@ -6,7 +6,7 @@ services:
     container_name: tasks-app
     ports:
     - "8000:8000"
-    command: sh -c "cd /tasks
+    command: sh -c "cd /CheckYourTasks
              && alembic upgrade head
              && python main.py"
     env_file:
