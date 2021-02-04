@@ -8,6 +8,8 @@ from hooks import init_db_sqlite
 def configure_app(config: ApplicationConfig, context: Context):
     app = Sanic(__name__)
 
+    init_db_sqlite(config, context)
+
     for handler in get_routes(config, context):
         app.add_route(
             handler=handler,
