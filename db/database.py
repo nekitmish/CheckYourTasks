@@ -21,7 +21,7 @@ class DBSession:
         return self.query(DBEmployee).filter(DBEmployee.is_delete == False)
 
     def messages(self, employee_id: int) -> Query:
-        messages = self.query(DBMessage).filter(DBMessage.recipient_id == employee_id)
+        return self.messages_not_deleted().filter(DBMessage.recipient_id == employee_id)
 
     def messages_not_deleted(self) -> Query:
         return self.query(DBMessage).filter(DBMessage.is_delete == False)
@@ -57,11 +57,21 @@ class DBSession:
         return qs.all()
 
     def get_message_all(self, rid: int) -> List['DBMessage']:
-        return self.messages(rid).filter(DBMessage.is_delete == False).all()
+        return self.messages(rid).filter(DBMessage.sender_id == rid).all()
 
     def get_messages_by_sender_login(self, rid: int, login: str) -> List['DBMessage']:
         sender_id = self.get_employee_id_by_login(login)
-        return self.messages_not_deleted().filter(DBMessage.recipient_id == rid, DBMessage.sender_id == sender_id).all()
+        return self.messages(rid).filter(DBMessage.sender_id == sender_id).all()
+
+    def get_messages_by_sender_id(self, rid: int, sender_id: int) -> List['DBMessage']:
+        return self.messages(rid).filter(DBMessage.sender_id == sender_id).all()
+
+    def get_messages_by_recipient_id(self, sender_id: int, recipient_id: int) -> List['DBMessage']:
+        return self.messages(recipient_id).filter(DBMessage.sender_id == sender_id).all()
+
+    def get_messages_by_recipient_login(self, sender_id: int, login) -> List['DBMessage']:
+        rid = self.get_employee_id_by_login(login)
+        return self.get_messages_by_recipient_id(sender_id, rid)
 
     def get_message_by_id(self, message_id: int) -> DBMessage:
         msg = self.messages_not_deleted().filter(DBMessage.id == message_id).first()

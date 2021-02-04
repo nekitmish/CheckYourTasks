@@ -18,7 +18,8 @@ class BaseEndpoint(SanicEndpoint):
             try:
                 DBSession(session).get_employee_by_id(kwargs.get('token').get('eid'))
             except DBEmployeeNotExistsException:
-                raise SanicEmployeeNotFound('Your employee not found')
+                raise SanicEmployeeNotFound('Sorry, we could not find your employee.'
+                                            'Obviously, your account has been removed')
 
         try:
             return await super()._method(request, body, session, *args, **kwargs)
