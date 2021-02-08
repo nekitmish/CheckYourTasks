@@ -1,20 +1,21 @@
 from typing import List
 
-from api.request import RequestCreateMessageDto
+from api.request import RequestMessageDto
 from db.database import DBSession
 from db.exceptions import DBEmployeeNotExistsException, DBMessageNotExistsException
 from db.models import DBMessage
 
 
-def create_message(session: DBSession, message: RequestCreateMessageDto, rid: int, sid: int) -> DBMessage:
+def create_message(session: DBSession, message: RequestMessageDto, rid: int, sid: int) -> DBMessage:
+
+    if session.get_employee_by_id(rid) is None:
+        raise DBEmployeeNotExistsException('Employee does not exists')
+
     new_message = DBMessage(
         sender_id=sid,
         recipient_id=rid,
         message=message.message,
     )
-
-    if session.get_employee_by_id(rid) is None:
-        raise DBEmployeeNotExistsException('Employee does not exists')
 
     session.add_model(new_message)
 
@@ -55,6 +56,7 @@ def patch_message(session: DBSession, message, message_id: int) -> DBMessage:
 def delete_message(session: DBSession, message_id: int):
     db_message = session.get_message_by_id(message_id)
     db_message.is_delete = True
+    return db_message
 
 
 def get_message(session: DBSession, message_id: int) -> DBMessage:

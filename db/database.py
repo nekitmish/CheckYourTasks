@@ -18,13 +18,13 @@ class DBSession:
         return self._session.query(*args, **kwargs)
 
     def employees(self) -> Query:
-        return self.query(DBEmployee).filter(DBEmployee.is_delete == False)
+        return self.query(DBEmployee).filter(DBEmployee.is_delete is False)
 
     def messages(self, employee_id: int) -> Query:
         return self.messages_not_deleted().filter(DBMessage.recipient_id == employee_id)
 
     def messages_not_deleted(self) -> Query:
-        return self.query(DBMessage).filter(DBMessage.is_delete == False)
+        return self.query(DBMessage).filter(DBMessage.is_delete is False)
 
     def close_session(self):
         self._session.close()

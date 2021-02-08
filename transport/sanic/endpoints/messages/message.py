@@ -1,7 +1,7 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.request import RequestCreateMessageDto
+from api.request import RequestMessageDto
 from api.response import ResponseCreateMessageDto
 from api.exceptions import ApiResponseValidationException
 from db.database import DBSession
@@ -16,7 +16,7 @@ class MessageEndpoint(BaseEndpoint):
     async def method_post(self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs
                           ) -> BaseHTTPResponse:
 
-        request_model = RequestCreateMessageDto(body)
+        request_model = RequestMessageDto(body)
 
         try:
             rid = session.get_employee_id_by_login(request_model.recipient)

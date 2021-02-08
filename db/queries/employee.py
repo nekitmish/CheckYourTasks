@@ -59,4 +59,7 @@ def get_employees(session: DBSession) -> List['DBEmployee']:
     return session.get_employee_all()
 
 
+def get_employee_id_by_login(session: DBSession, login: str) -> int:
+    return session.get_employee_id_by_login(login)
+
 

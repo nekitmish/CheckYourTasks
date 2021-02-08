@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-secret = os.getenv('secret')
+secret = os.getenv('secret', 'SECRET_KEY')
 
 
 def create_token(payload: dict) -> str:

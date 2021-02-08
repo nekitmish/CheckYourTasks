@@ -17,7 +17,7 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
         endpoints.AllEmployeeEndpoint(
             config, context, uri='/employee/all', methods=['GET'], auth_required=True),
         endpoints.MyEmployeeEndpoint(
-            config, context, uri='/employee/<eid:int>', methods=['GET'], auth_required=True),
+            config, context, uri='/employee', methods=['GET'], auth_required=True),
         endpoints.GetMyEmployeeByLoginEndpoint(
             config, context, uri='/employee/<login:string>', methods=['GET'], auth_required=True),
         endpoints.MessageEndpoint(

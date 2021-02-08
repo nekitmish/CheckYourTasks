@@ -32,3 +32,6 @@ class SanicAuthException(SanicException):
 class SanicMessagesNotFound(SanicException):
     status_code = 404
 
+
+class SanicBadRequest(SanicException):
+    status_code = 400

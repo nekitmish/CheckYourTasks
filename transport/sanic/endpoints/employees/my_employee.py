@@ -6,13 +6,20 @@ from api.response import ResponseEmployeeDto
 from db.exceptions import DBEmployeeNotExistsException
 from db.queries import employee as employee_queries
 from transport.sanic.endpoints import BaseEndpoint
-from transport.sanic.exceptions import SanicEmployeeNotFound
+from transport.sanic.exceptions import SanicEmployeeNotFound, SanicBadRequest
 
 
 class MyEmployeeEndpoint(BaseEndpoint):
 
-    async def method_get(self, request: Request, body: dict, session: DBSession, eid: int, token: dict, *args, **kwargs
+    async def method_get(self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs
                          ) -> BaseHTTPResponse:
+
+        if 'id' in request.args:
+            eid = request.args['id']
+        elif 'login' in request.args:
+            eid = employee_queries.get_employee_id_by_login(request.args['login'])
+        else:
+            raise SanicBadRequest('Bad request')
 
         if token.get('eid') != eid:
             return await self.make_response_json(status=403)
