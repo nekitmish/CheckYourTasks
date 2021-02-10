@@ -1,15 +1,21 @@
 from typing import List
 
-from api.request import RequestMessageDto
+from transport.sanic.exceptions import SanicEmployeeNotFound
+from api.request import RequestCreateMessageDto
 from db.database import DBSession
 from db.exceptions import DBEmployeeNotExistsException, DBMessageNotExistsException
 from db.models import DBMessage
+from db.queries.employee import get_employee_id_by_login
 
 
-def create_message(session: DBSession, message: RequestMessageDto, rid: int, sid: int) -> DBMessage:
+def create_message(session: DBSession, message: RequestCreateMessageDto, sid: int) -> DBMessage:
 
-    if session.get_employee_by_id(rid) is None:
-        raise DBEmployeeNotExistsException('Employee does not exists')
+    rid = get_employee_id_by_login(session, message.recipient)
+
+    try:
+        session.get_employee_by_id(rid)
+    except DBEmployeeNotExistsException:
+        raise SanicEmployeeNotFound('Employee not found')
 
     new_message = DBMessage(
         sender_id=sid,

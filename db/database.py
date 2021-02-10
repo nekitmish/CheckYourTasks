@@ -39,12 +39,14 @@ class DBSession:
 
     def get_employee_by_login(self, login: str) -> DBEmployee:
         employee = self.employees().filter(DBEmployee.login == login).first()
+        if employee is None:
+            raise DBEmployeeNotExistsException('Employee not found')
         return employee
 
     def get_employee_by_id(self, eid: int) -> DBEmployee:
         employee = self.employees().filter(DBEmployee.id == eid).first()
         if employee is None:
-            raise DBEmployeeNotExistsException('Your employee not found')
+            raise DBEmployeeNotExistsException('Employee not found')
         return employee
 
     def get_employee_id_by_login(self, login: str) -> int:
@@ -76,7 +78,7 @@ class DBSession:
     def get_message_by_id(self, message_id: int) -> DBMessage:
         msg = self.messages_not_deleted().filter(DBMessage.id == message_id).first()
         if msg is None:
-            raise DBMessageNotExistsException('Error')
+            raise DBMessageNotExistsException('Message not found')
         return msg
 
     def commit_session(self, need_close: bool = False):

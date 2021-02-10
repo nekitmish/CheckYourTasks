@@ -5,7 +5,7 @@ from marshmallow import Schema, fields, pre_load, post_load
 from api.base import ResponseDto
 
 
-class ResponseCreateMessageDtoSchema(Schema):
+class ResponseMessageDtoSchema(Schema):
     id = fields.Int(required=True)
     sender_id = fields.Int(required=True)
     recipient_id = fields.Int(required=True)
@@ -30,5 +30,6 @@ class ResponseCreateMessageDtoSchema(Schema):
         return dt
 
 
-class ResponseCreateMessageDto(ResponseDto):
-    __schema__ = ResponseCreateMessageDtoSchema
+class ResponseMessageDto(ResponseDto):
+    __schema__ = ResponseMessageDtoSchema
+

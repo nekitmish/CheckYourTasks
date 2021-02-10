@@ -15,9 +15,9 @@ class MyEmployeeEndpoint(BaseEndpoint):
                          ) -> BaseHTTPResponse:
 
         if 'id' in request.args:
-            eid = request.args['id']
+            eid = int(request.args['id'][0])
         elif 'login' in request.args:
-            eid = employee_queries.get_employee_id_by_login(request.args['login'])
+            eid = employee_queries.get_employee_id_by_login(session, request.args['login'][0])
         else:
             raise SanicBadRequest('Bad request')
 
